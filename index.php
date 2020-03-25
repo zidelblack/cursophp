@@ -13,7 +13,12 @@
     ], 
   ];
 
-  //$jobs[0][title];
+$var1 = 1;
+/* if($var1 > 2 ) {
+  echo 'es mayor que 2';
+} else{
+  echo 'no es mayor que 2';
+} */
 
   ?>
 
@@ -64,6 +69,11 @@
         <div>
           <h3 class="border-bottom-gray" >Work Experience</h3>
           <ul>
+            <?php
+            do{
+
+            }while();
+            ?>
             <li class="work-position">
               <h5><?php echo $jobs[0]['title'];?> </h5>
               <p><?php echo $jobs[0]['description'];?>.</p>
