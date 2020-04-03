@@ -1,6 +1,9 @@
 <?php
-
+ 
 require_once('jobs.php');
+
+use App\Models\Job;
+use App\Models\Project;
 
 $name = 'Hector Benitez';
 $limitMonths = 2000;
