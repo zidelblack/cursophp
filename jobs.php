@@ -2,9 +2,7 @@
 
 use App\Models\{Job, Project};
 
-$jobs = Job::all();
 
-$projects =Project::all();
 
 //$project1 = new Project('Project 1','Description 1');
 
