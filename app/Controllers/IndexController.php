@@ -1,6 +1,7 @@
 <?php
 
     namespace App\Controllers;
+    
     use App\Models\{Job, Project};
 
 
@@ -12,6 +13,6 @@
             $name = 'Hector Zid';
             $limitMonths = 2000;
 
-            include '../../views/index.php'
+            include '../views/index.php';
         }
     }
