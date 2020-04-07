@@ -27,7 +27,7 @@ $capsule->setAsGlobal();
 // Setup the Eloquent ORM... (optional; unless you've used setEventDispatcher())
 $capsule->bootEloquent();
 
-$request = Zend\Diactoros\ServerRequestFactory::fromGlobals(
+$request = Laminas\Diactoros\ServerRequestFactory::fromGlobals(
     $_SERVER,
     $_GET,
     $_POST,
@@ -49,6 +49,29 @@ $map->post('saveJobs', '/jobs/add', [
     'controller' => 'App\Controllers\JobsController',
     'action' => 'getAddJobAction'
 ]);
+$map->get('addUser', '/users/add', [
+    'controller' => 'App\Controllers\UsersController',
+    'action' => 'getAddUser'
+]);
+$map->post('saveUser', '/users/save', [
+    'controller' => 'App\Controllers\UsersController',
+    'action' => 'postSaveUser'
+]);
+$map->get('loginForm', '/login', [
+    'controller' => 'App\Controllers\AuthController',
+    'action' => 'getLogin'
+]);
+$map->post('auth', '/auth', [
+    'controller' => 'App\Controllers\AuthController',
+    'action' => 'postLogin'
+]);
+$map->get('admin', '/admin', [
+    'controller' => 'App\Controllers\AdminController',
+    'action' => 'getIndex',
+    'auth' => true
+
+]);
+
 
 $matcher = $routerContainer->getMatcher();
 $route = $matcher->match($request);
@@ -77,9 +100,18 @@ if (!$route) {
     $handlerData = $route->handler;
     $controllerName = $handlerData['controller'];
     $actionName = $handlerData['action'];
+    $needsAuth = $handlerData['auth'] ?? false;
 
     $controller = new $controllerName;
-    $controller->$actionName($request);
+    $response = $controller->$actionName($request);
+
+    foreach($response->getHeaders() as $name => $values){
+        foreach($values as $value){
+            header(sprintf('%s: %s', $name, $value), false);
+        }
+    }
+    http_response_code($response->getStatusCode());
+    echo $response->getBody();
 }
 
 
